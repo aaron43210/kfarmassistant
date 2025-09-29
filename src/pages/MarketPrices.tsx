@@ -120,7 +120,8 @@ const MarketPrices = () => {
 
   const handleSearch = () => {
     if (searchParams.crop.trim()) {
-      searchMarketPrices(searchParams.crop.trim(), searchParams.district);
+      const district = searchParams.district === 'all' ? '' : searchParams.district;
+      searchMarketPrices(searchParams.crop.trim(), district);
     }
   };
   
@@ -287,7 +288,7 @@ const MarketPrices = () => {
                     <SelectValue placeholder={language === 'ml' ? 'ജില്ല തിരഞ്ഞെടുക്കുക' : 'Select District'} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">{language === 'ml' ? 'എല്ലാ ജില്ലകളും' : 'All Districts'}</SelectItem>
+                    <SelectItem value="all">{language === 'ml' ? 'എല്ലാ ജില്ലകളും' : 'All Districts'}</SelectItem>
                     {keralaDistricts.map((district) => (
                       <SelectItem key={district} value={district}>
                         {district}
