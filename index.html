@@ -25,8 +25,11 @@
   <meta property="og:description" content="AI-powered farming assistant for Kerala farmers. Get crop advice, pest detection, market prices, and government schemes information in Malayalam and English.">
   <meta name="twitter:description" content="AI-powered farming assistant for Kerala farmers. Get crop advice, pest detection, market prices, and government schemes information in Malayalam and English.">
   
-  <!-- Preload critical resources to reduce network dependency chains -->
-  <link rel="preload" href="/src/index.css" as="style">
+  <!-- Optimize CSS loading to prevent render blocking -->
+  <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
+  
+  <!-- Preload critical JS -->
   <link rel="preload" href="/src/main.tsx" as="script">
 </head>
 
