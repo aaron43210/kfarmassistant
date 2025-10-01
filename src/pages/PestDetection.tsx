@@ -56,83 +56,52 @@ const PestDetection = () => {
     setIsAnalyzing(true);
     setAnalysisResult(null);
     
-    try {
-      // Call secure edge function instead of direct API call
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-plant`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ image: selectedImage }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        console.error('Analysis failed:', errorData);
-        throw new Error(errorData.error || 'Analysis failed');
+    // Simulate analysis delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    // Demo results - randomly select one
+    const sampleResults: AnalysisResult[] = [
+      {
+        diagnosis: 'Fungal infection detected on leaf surface',
+        confidence: 'Medium',
+        confidenceScore: 75,
+        explanation: 'The leaf shows brown spots with yellow halos, typical of fungal diseases. This commonly occurs during humid conditions.',
+        precautions: [
+          'Remove affected leaves immediately',
+          'Apply neem oil spray in early morning',
+          'Improve air circulation around plants'
+        ],
+        issueType: 'fungal_infection'
+      },
+      {
+        diagnosis: 'Pest attack - likely aphids or small insects',
+        confidence: 'High',
+        confidenceScore: 88,
+        explanation: 'Small holes and yellowing patterns suggest pest feeding. This is common in Kerala during monsoon season.',
+        precautions: [
+          'Spray diluted soap solution (1:10 ratio)',
+          'Plant marigolds nearby as natural deterrent',
+          'Check daily for early pest detection'
+        ],
+        issueType: 'pest_attack'
+      },
+      {
+        diagnosis: 'Nutrient deficiency - possible nitrogen lack',
+        confidence: 'Medium',
+        confidenceScore: 65,
+        explanation: 'Yellowing from bottom leaves upward indicates nitrogen deficiency. Common in sandy soils.',
+        precautions: [
+          'Apply organic compost around plant base',
+          'Use diluted liquid fertilizer weekly',
+          'Mulch soil to retain nutrients'
+        ],
+        issueType: 'nutrient_deficiency'
       }
-
-      const data = await response.json();
-      const processedResult = processPlantAnalysis(data);
-      setAnalysisResult(processedResult);
-      
-    } catch (error) {
-      console.error('Analysis failed:', error);
-      toast({
-        title: "Analysis Failed",
-        description: error instanceof Error ? error.message : "Failed to analyze the image. Please try again.",
-        variant: "destructive",
-      });
-      
-      // Fallback to simulated results for demo
-      const sampleResults: AnalysisResult[] = [
-        {
-          diagnosis: 'Fungal infection detected on leaf surface',
-          confidence: 'Medium',
-          confidenceScore: 75,
-          explanation: 'The leaf shows brown spots with yellow halos, typical of fungal diseases. This commonly occurs during humid conditions.',
-          precautions: [
-            'Remove affected leaves immediately',
-            'Apply neem oil spray in early morning',
-            'Improve air circulation around plants'
-          ],
-          issueType: 'fungal_infection'
-        },
-        {
-          diagnosis: 'Pest attack - likely aphids or small insects',
-          confidence: 'High',
-          confidenceScore: 88,
-          explanation: 'Small holes and yellowing patterns suggest pest feeding. This is common in Kerala during monsoon season.',
-          precautions: [
-            'Spray diluted soap solution (1:10 ratio)',
-            'Plant marigolds nearby as natural deterrent',
-            'Check daily for early pest detection'
-          ],
-          issueType: 'pest_attack'
-        },
-        {
-          diagnosis: 'Nutrient deficiency - possible nitrogen lack',
-          confidence: 'Medium',
-          confidenceScore: 65,
-          explanation: 'Yellowing from bottom leaves upward indicates nitrogen deficiency. Common in sandy soils.',
-          precautions: [
-            'Apply organic compost around plant base',
-            'Use diluted liquid fertilizer weekly',
-            'Mulch soil to retain nutrients'
-          ],
-          issueType: 'nutrient_deficiency'
-        }
-      ];
-      
-      const randomResult = sampleResults[Math.floor(Math.random() * sampleResults.length)];
-      setAnalysisResult(randomResult);
-    } finally {
-      setIsAnalyzing(false);
-    }
+    ];
+    
+    const randomResult = sampleResults[Math.floor(Math.random() * sampleResults.length)];
+    setAnalysisResult(randomResult);
+    setIsAnalyzing(false);
   };
 
   const processPlantAnalysis = (apiData: any): AnalysisResult => {
