@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Upload, Camera, AlertTriangle, CheckCircle, Bug } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface AnalysisResult {
   diagnosis: string;
@@ -15,6 +16,7 @@ interface AnalysisResult {
 
 const PestDetection = () => {
   const { language, t } = useLanguage();
+  const { toast } = useToast();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
@@ -52,39 +54,40 @@ const PestDetection = () => {
     if (!selectedImage) return;
     
     setIsAnalyzing(true);
+    setAnalysisResult(null);
     
     try {
-      // Convert base64 to blob for API
-      const response = await fetch(selectedImage);
-      const blob = await response.blob();
-      
-      // Create FormData for Plant.id API
-      const formData = new FormData();
-      formData.append('images', blob);
-      formData.append('modifiers', JSON.stringify(['crops_fast', 'similar_images']));
-      formData.append('plant_details', JSON.stringify(['common_names']));
-      
-      // Call Plant.id API (you'll need to add API key in secrets)
-      const apiResponse = await fetch('https://api.plant.id/v2/health_assessment', {
-        method: 'POST',
-        headers: {
-          'Api-Key': 'YOUR_PLANT_ID_API_KEY', // This should come from environment variables
-        },
-        body: formData,
-      });
-      
-      if (!apiResponse.ok) {
-        throw new Error('API request failed');
+      // Call secure edge function instead of direct API call
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-plant`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ image: selectedImage }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Analysis failed:', errorData);
+        throw new Error(errorData.error || 'Analysis failed');
       }
-      
-      const data = await apiResponse.json();
-      
-      // Process API response with AI reasoning
+
+      const data = await response.json();
       const processedResult = processPlantAnalysis(data);
       setAnalysisResult(processedResult);
       
     } catch (error) {
       console.error('Analysis failed:', error);
+      toast({
+        title: "Analysis Failed",
+        description: error instanceof Error ? error.message : "Failed to analyze the image. Please try again.",
+        variant: "destructive",
+      });
+      
       // Fallback to simulated results for demo
       const sampleResults: AnalysisResult[] = [
         {
@@ -127,9 +130,9 @@ const PestDetection = () => {
       
       const randomResult = sampleResults[Math.floor(Math.random() * sampleResults.length)];
       setAnalysisResult(randomResult);
+    } finally {
+      setIsAnalyzing(false);
     }
-    
-    setIsAnalyzing(false);
   };
 
   const processPlantAnalysis = (apiData: any): AnalysisResult => {

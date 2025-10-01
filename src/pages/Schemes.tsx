@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { FileText, ExternalLink, Calendar, IndianRupee } from 'lucide-react';
+import { safeRedirect } from '@/lib/urlValidation';
 
 interface Scheme {
   title: string;
@@ -187,13 +188,30 @@ const Schemes = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-2">
-                  <Button asChild size="sm" className="flex-1">
-                    <a href={scheme.applyUrl} target="_blank" rel="noopener noreferrer">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      {t('schemes.apply')}
-                    </a>
+                  <Button 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => safeRedirect(
+                      scheme.applyUrl,
+                      language === 'ml' 
+                        ? 'ഈ ലിങ്ക് സുരക്ഷിതമല്ല. ദയവായി സംസ്ഥാന കാർഷിക വകുപ്പിനെ ബന്ധപ്പെടുക.'
+                        : 'This link could not be verified as safe. Please contact the State Agriculture Department.'
+                    )}
+                  >
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    {t('schemes.apply')}
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="flex-1"
+                    onClick={() => safeRedirect(
+                      scheme.applyUrl,
+                      language === 'ml' 
+                        ? 'ഈ ലിങ്ക് സുരക്ഷിതമല്ല. ദയവായി സംസ്ഥാന കാർഷിക വകുപ്പിനെ ബന്ധപ്പെടുക.'
+                        : 'This link could not be verified as safe. Please contact the State Agriculture Department.'
+                    )}
+                  >
                     {t('schemes.details')}
                   </Button>
                 </div>
