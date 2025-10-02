@@ -10,6 +10,7 @@ import CropAdvisory from "./pages/CropAdvisory";
 import PestDetection from "./pages/PestDetection";
 import MarketPrices from "./pages/MarketPrices";
 import Schemes from "./pages/Schemes";
+import Weather from "./pages/Weather";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
                 <Route path="/pest-detection" element={<PestDetection />} />
                 <Route path="/market-prices" element={<MarketPrices />} />
                 <Route path="/schemes" element={<Schemes />} />
+                <Route path="/weather" element={<Weather />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

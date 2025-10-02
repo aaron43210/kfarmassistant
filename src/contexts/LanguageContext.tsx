@@ -18,6 +18,7 @@ const translations = {
     'nav.pest': 'Pest Detection',
     'nav.prices': 'Market Prices',
     'nav.schemes': 'Government Schemes',
+    'nav.weather': 'Weather',
     
     // Home Page
     'home.welcome': 'Welcome to Kerala Farm Assistant',
@@ -56,7 +57,23 @@ const translations = {
     // Schemes
     'schemes.title': 'Government Schemes',
     'schemes.apply': 'Apply Now',
-    'schemes.details': 'View Details'
+    'schemes.details': 'View Details',
+    
+    // Weather
+    'weather.title': 'Real-Time Weather & Climate Updates',
+    'weather.subtitle': 'Stay informed about weather conditions to protect your crops',
+    'weather.selectLocation': 'Select Your Location',
+    'weather.current': 'Current Weather',
+    'weather.temperature': 'Temperature',
+    'weather.humidity': 'Humidity',
+    'weather.rainChance': 'Rain Chance',
+    'weather.alerts': 'Weather Alerts',
+    'weather.precautions': 'Precautions to Take',
+    'weather.forecast': '3-Day Forecast',
+    'weather.rain': 'rain',
+    'weather.loading': 'Loading...',
+    'weather.refresh': 'Refresh',
+    'weather.selectLocationPrompt': 'Select a location to view weather information'
   },
   ml: {
     // Header
@@ -67,6 +84,7 @@ const translations = {
     'nav.pest': 'കീട നിർണയം',
     'nav.prices': 'മാർക്കറ്റ് വില',
     'nav.schemes': 'സർക്കാർ പദ്ധതികൾ',
+    'nav.weather': 'കാലാവസ്ഥ',
     
     // Home Page
     'home.welcome': 'കേരള ഫാം അസിസ്റ്റന്റിലേക്ക് സ്വാഗതം',
@@ -105,7 +123,23 @@ const translations = {
     // Schemes
     'schemes.title': 'സർക്കാർ പദ്ധതികൾ',
     'schemes.apply': 'ഇപ്പോൾ അപേക്ഷിക്കുക',
-    'schemes.details': 'വിശദാംശങ്ങൾ കാണുക'
+    'schemes.details': 'വിശദാംശങ്ങൾ കാണുക',
+    
+    // Weather
+    'weather.title': 'തത്സമയ കാലാവസ്ഥ വിവരങ്ങൾ',
+    'weather.subtitle': 'നിങ്ങളുടെ വിളകളെ സംരക്ഷിക്കാൻ കാലാവസ്ഥാ വിവരങ്ങൾ അറിയുക',
+    'weather.selectLocation': 'നിങ്ങളുടെ സ്ഥലം തിരഞ്ഞെടുക്കുക',
+    'weather.current': 'നിലവിലെ കാലാവസ്ഥ',
+    'weather.temperature': 'താപനില',
+    'weather.humidity': 'ആർദ്രത',
+    'weather.rainChance': 'മഴയുടെ സാധ്യത',
+    'weather.alerts': 'കാലാവസ്ഥ മുന്നറിയിപ്പുകൾ',
+    'weather.precautions': 'എടുക്കേണ്ട മുൻകരുതലുകൾ',
+    'weather.forecast': '3 ദിവസത്തെ പ്രവചനം',
+    'weather.rain': 'മഴ',
+    'weather.loading': 'ലോഡിംഗ്...',
+    'weather.refresh': 'റിഫ്രഷ് ചെയ്യുക',
+    'weather.selectLocationPrompt': 'കാലാവസ്ഥ വിവരങ്ങൾ കാണാൻ ഒരു സ്ഥലം തിരഞ്ഞെടുക്കുക'
   }
 };
 
