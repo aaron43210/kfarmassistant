@@ -59,6 +59,12 @@ const translations = {
     'schemes.apply': 'Apply Now',
     'schemes.details': 'View Details',
     
+    // Chatbot
+    'chatbot.title': 'Farming Assistant',
+    'chatbot.welcome': 'Hello! Ask me anything about farming, crops, weather, or government schemes.',
+    'chatbot.placeholder': 'Type your question...',
+    'chatbot.error': 'Error',
+    
     // Weather
     'weather.title': 'Real-Time Weather & Climate Updates',
     'weather.subtitle': 'Stay informed about weather conditions to protect your crops',
@@ -124,6 +130,12 @@ const translations = {
     'schemes.title': 'സർക്കാർ പദ്ധതികൾ',
     'schemes.apply': 'ഇപ്പോൾ അപേക്ഷിക്കുക',
     'schemes.details': 'വിശദാംശങ്ങൾ കാണുക',
+    
+    // Chatbot
+    'chatbot.title': 'കാർഷിക സഹായി',
+    'chatbot.welcome': 'നമസ്കാരം! കൃഷി, വിളകൾ, കാലാവസ്ഥ, അല്ലെങ്കിൽ സർക്കാർ പദ്ധതികൾ എന്നിവയെക്കുറിച്ച് എന്തും ചോദിക്കൂ.',
+    'chatbot.placeholder': 'നിങ്ങളുടെ ചോദ്യം ടൈപ്പ് ചെയ്യുക...',
+    'chatbot.error': 'പിശക്',
     
     // Weather
     'weather.title': 'തത്സമയ കാലാവസ്ഥ വിവരങ്ങൾ',

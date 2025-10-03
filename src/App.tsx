@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Header from "@/components/Header";
+import ChatBot from "@/components/ChatBot";
 import Home from "./pages/Home";
 import CropAdvisory from "./pages/CropAdvisory";
 import PestDetection from "./pages/PestDetection";
@@ -36,6 +37,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
+            <ChatBot />
           </div>
         </BrowserRouter>
       </TooltipProvider>

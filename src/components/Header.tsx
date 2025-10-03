@@ -14,9 +14,9 @@ const Header = () => {
     { path: '/', label: t('nav.home') },
     { path: '/crop-advisory', label: t('nav.crop') },
     { path: '/pest-detection', label: t('nav.pest') },
+    { path: '/weather', label: t('nav.weather') },
     { path: '/market-prices', label: t('nav.prices') },
-    { path: '/schemes', label: t('nav.schemes') },
-    { path: '/weather', label: t('nav.weather') }
+    { path: '/schemes', label: t('nav.schemes') }
   ];
 
   const isActive = (path: string) => location.pathname === path;
