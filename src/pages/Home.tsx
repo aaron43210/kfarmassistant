@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Sprout, Bug, TrendingUp, FileText, ArrowRight } from 'lucide-react';
+import { Sprout, Bug, TrendingUp, FileText, ArrowRight, Cloud } from 'lucide-react';
 import heroImage from '@/assets/hero-farming.jpg';
 
 const Home = () => {
@@ -23,6 +23,13 @@ const Home = () => {
       description: t('home.pest.desc'),
       path: '/pest-detection',
       color: 'text-warning bg-warning/10'
+    },
+    {
+      icon: Cloud,
+      title: t('home.weather.title'),
+      description: t('home.weather.desc'),
+      path: '/weather',
+      color: 'text-sky-blue bg-sky-blue/10'
     },
     {
       icon: TrendingUp,
