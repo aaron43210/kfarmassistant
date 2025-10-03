@@ -72,13 +72,17 @@ const Home = () => {
               {t('home.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild variant="secondary" size="lg" className="text-base">
+              <Button asChild size="lg" className="text-base bg-white text-primary hover:bg-white/90 shadow-lg">
                 <Link to="/crop-advisory">
                   <Sprout className="h-5 w-5 mr-2" />
                   {t('nav.crop')}
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-base border-white text-white hover:bg-white hover:text-primary">
+              <Button 
+                asChild 
+                size="lg" 
+                className="text-base bg-gradient-to-r from-warning to-warning/80 text-white hover:from-warning/90 hover:to-warning/70 shadow-lg border-0"
+              >
                 <Link to="/pest-detection">
                   <Bug className="h-5 w-5 mr-2" />
                   {t('nav.pest')}

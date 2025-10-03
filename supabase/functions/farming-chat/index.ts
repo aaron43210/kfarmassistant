@@ -11,7 +11,7 @@ serve(async (req) => {
   }
 
   try {
-    const { messages } = await req.json();
+    const { messages, images } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -30,6 +30,26 @@ serve(async (req) => {
 
 Provide clear, concise answers in a friendly tone. If asked in Malayalam, respond in Malayalam. Always prioritize safety and sustainable farming practices.`;
 
+    // Prepare messages with images if provided
+    const apiMessages = [...messages];
+    
+    // If there are images in the last user message, format them for the API
+    if (images && images.length > 0) {
+      const lastMessage = apiMessages[apiMessages.length - 1];
+      if (lastMessage && lastMessage.role === 'user') {
+        lastMessage.content = [
+          {
+            type: 'text',
+            text: lastMessage.content
+          },
+          ...images.map((img: string) => ({
+            type: 'image_url',
+            image_url: { url: img }
+          }))
+        ];
+      }
+    }
+
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -40,7 +60,7 @@ Provide clear, concise answers in a friendly tone. If asked in Malayalam, respon
         model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
-          ...messages,
+          ...apiMessages,
         ],
       }),
     });

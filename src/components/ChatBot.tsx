@@ -3,13 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MessageCircle, X, Send, Loader2, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, Sparkles, Paperclip, Image as ImageIcon } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  images?: string[];
 }
 
 const ChatBot = () => {
@@ -17,9 +18,11 @@ const ChatBot = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -27,17 +30,67 @@ const ChatBot = () => {
     }
   }, [messages]);
 
-  const sendMessage = async () => {
-    if (!input.trim() || isLoading) return;
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
 
-    const userMessage: Message = { role: 'user', content: input };
+    const newImages: string[] = [];
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      
+      // Check if it's an image
+      if (!file.type.startsWith('image/')) {
+        toast({
+          title: language === 'en' ? 'Invalid file type' : 'അസാധുവായ ഫയൽ തരം',
+          description: language === 'en' ? 'Please upload only images' : 'ദയവായി ചിത്രങ്ങൾ മാത്രം അപ്‌ലോഡ് ചെയ്യുക',
+          variant: 'destructive',
+        });
+        continue;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          title: language === 'en' ? 'File too large' : 'ഫയൽ വളരെ വലുതാണ്',
+          description: language === 'en' ? 'Maximum file size is 5MB' : 'പരമാവധി ഫയൽ വലുപ്പം 5MB ആണ്',
+          variant: 'destructive',
+        });
+        continue;
+      }
+
+      // Convert to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        newImages.push(reader.result as string);
+        if (newImages.length === files.length) {
+          setUploadedImages(prev => [...prev, ...newImages]);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const sendMessage = async () => {
+    if ((!input.trim() && uploadedImages.length === 0) || isLoading) return;
+
+    const userMessage: Message = { 
+      role: 'user', 
+      content: input || (language === 'en' ? 'What do you see in this image?' : 'ഈ ചിത്രത്തിൽ നിങ്ങൾ എന്താണ് കാണുന്നത്?'),
+      images: uploadedImages.length > 0 ? uploadedImages : undefined
+    };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+    const imagesToSend = uploadedImages;
+    setUploadedImages([]);
     setIsLoading(true);
 
     try {
       const { data, error } = await supabase.functions.invoke('farming-chat', {
-        body: { messages: [...messages, userMessage] }
+        body: { 
+          messages: [...messages, userMessage],
+          images: imagesToSend
+        }
       });
 
       if (error) throw error;
@@ -161,6 +214,18 @@ const ChatBot = () => {
                         : 'bg-card border border-border text-foreground rounded-bl-sm'
                     }`}
                   >
+                    {message.images && message.images.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {message.images.map((img, imgIndex) => (
+                          <img
+                            key={imgIndex}
+                            src={img}
+                            alt={`Uploaded ${imgIndex + 1}`}
+                            className="max-w-full h-32 object-cover rounded-lg"
+                          />
+                        ))}
+                      </div>
+                    )}
                     <p className="text-sm whitespace-pre-wrap">{message.content}</p>
                   </div>
                 </div>
@@ -180,7 +245,39 @@ const ChatBot = () => {
 
           {/* Input */}
           <div className="p-4 border-t border-border bg-background">
+            {uploadedImages.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-3 p-2 bg-muted rounded-lg">
+                {uploadedImages.map((img, index) => (
+                  <div key={index} className="relative">
+                    <img src={img} alt={`Upload ${index + 1}`} className="h-16 w-16 object-cover rounded" />
+                    <button
+                      onClick={() => setUploadedImages(prev => prev.filter((_, i) => i !== index))}
+                      className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground rounded-full p-1 h-5 w-5 flex items-center justify-center text-xs"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="flex gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+              <Button
+                onClick={() => fileInputRef.current?.click()}
+                variant="outline"
+                size="icon"
+                className="rounded-full h-10 w-10 flex-shrink-0"
+                disabled={isLoading}
+              >
+                <ImageIcon className="h-4 w-4" />
+              </Button>
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -191,9 +288,9 @@ const ChatBot = () => {
               />
               <Button
                 onClick={sendMessage}
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || (!input.trim() && uploadedImages.length === 0)}
                 size="icon"
-                className="rounded-full h-10 w-10 bg-gradient-to-r from-primary to-primary/90 hover:scale-105 transition-transform"
+                className="rounded-full h-10 w-10 bg-gradient-to-r from-primary to-primary/90 hover:scale-105 transition-transform flex-shrink-0"
               >
                 <Send className="h-4 w-4" />
               </Button>
