@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Sprout, Bug, TrendingUp, FileText, ArrowRight, Cloud } from 'lucide-react';
+import { Sprout, Bug, TrendingUp, FileText, ArrowRight, Cloud, BookOpen, Calculator, Notebook } from 'lucide-react';
 import heroImage from '@/assets/hero-farming.jpg';
 
 const Home = () => {
@@ -37,6 +37,27 @@ const Home = () => {
       description: t('home.prices.desc'),
       path: '/market-prices',
       color: 'text-crop bg-crop/10'
+    },
+    {
+      icon: Notebook,
+      title: t('nav.records'),
+      description: 'Track your crops, expenses, and yields',
+      path: '/farm-records',
+      color: 'text-primary bg-primary/10'
+    },
+    {
+      icon: Calculator,
+      title: t('nav.resources'),
+      description: 'Calculate seeds, fertilizers, water needed',
+      path: '/resource-planning',
+      color: 'text-accent bg-accent/10'
+    },
+    {
+      icon: BookOpen,
+      title: t('nav.knowledge'),
+      description: 'Learn best farming practices and tips',
+      path: '/knowledge-base',
+      color: 'text-success bg-success/10'
     },
     {
       icon: FileText,

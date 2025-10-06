@@ -12,6 +12,9 @@ import PestDetection from "./pages/PestDetection";
 import MarketPrices from "./pages/MarketPrices";
 import Schemes from "./pages/Schemes";
 import Weather from "./pages/Weather";
+import FarmRecords from "./pages/FarmRecords";
+import ResourcePlanning from "./pages/ResourcePlanning";
+import KnowledgeBase from "./pages/KnowledgeBase";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +36,9 @@ const App = () => (
                 <Route path="/market-prices" element={<MarketPrices />} />
                 <Route path="/schemes" element={<Schemes />} />
                 <Route path="/weather" element={<Weather />} />
+                <Route path="/farm-records" element={<FarmRecords />} />
+                <Route path="/resource-planning" element={<ResourcePlanning />} />
+                <Route path="/knowledge-base" element={<KnowledgeBase />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

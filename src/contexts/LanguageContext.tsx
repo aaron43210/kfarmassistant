@@ -19,6 +19,9 @@ const translations = {
     'nav.prices': 'Market Prices',
     'nav.schemes': 'Government Schemes',
     'nav.weather': 'Weather',
+    'nav.records': 'Farm Records',
+    'nav.resources': 'Resource Planning',
+    'nav.knowledge': 'Knowledge Base',
     
     // Home Page
     'home.welcome': 'Welcome to Kerala Farm Assistant',
@@ -93,6 +96,9 @@ const translations = {
     'nav.prices': 'മാർക്കറ്റ് വില',
     'nav.schemes': 'സർക്കാർ പദ്ധതികൾ',
     'nav.weather': 'കാലാവസ്ഥ',
+    'nav.records': 'കൃഷി രേഖകൾ',
+    'nav.resources': 'വിഭവ ആസൂത്രണം',
+    'nav.knowledge': 'അറിവ് ശേഖരം',
     
     // Home Page
     'home.welcome': 'കേരള ഫാം അസിസ്റ്റന്റിലേക്ക് സ്വാഗതം',

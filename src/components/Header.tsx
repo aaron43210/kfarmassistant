@@ -16,6 +16,9 @@ const Header = () => {
     { path: '/pest-detection', label: t('nav.pest') },
     { path: '/weather', label: t('nav.weather') },
     { path: '/market-prices', label: t('nav.prices') },
+    { path: '/farm-records', label: t('nav.records') },
+    { path: '/resource-planning', label: t('nav.resources') },
+    { path: '/knowledge-base', label: t('nav.knowledge') },
     { path: '/schemes', label: t('nav.schemes') }
   ];
 
